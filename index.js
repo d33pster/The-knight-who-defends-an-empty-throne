@@ -13,6 +13,19 @@ export default (app) => {
     return context.octokit.issues.createComment(issueComment);
   });
 
+  app.on("issues.closed", async (context) => {
+    // const issue = context.payload.issue;
+    // const owner = issue.owner.login;
+    // const repo = issue.repo.name;
+    // const issueNumber = issue.number;
+
+    // Add your comment here
+    const commentBody = context.issue({body:'This issue is now closed.'});
+
+    // Post a comment on the closed issue
+    await context.octokit.issues.createComment(commentBody);
+  });
+
   // For more information on building apps:
   // https://probot.github.io/docs/
 
