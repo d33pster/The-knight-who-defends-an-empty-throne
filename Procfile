@@ -1,1 +1,0 @@
-web: python3 -m The-knight-who-defends-an-empty-throne
