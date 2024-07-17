@@ -1,5 +1,5 @@
 import { createLambdaFunction, createProbot } from '@probot/adapter-aws-lambda-serverless';
-import app from '../index';
+const app = require('../index');
 
 export const handler = createLambdaFunction(app, {
   probot: createProbot(),
