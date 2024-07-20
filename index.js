@@ -4,25 +4,44 @@
  */
 export default (app) => {
   // Your code here
-  app.log.info("Yay, the app was loaded!");
+  app.log.info("The Knight Who Defends An Empty Throne - IGRIS - LOGIN");
 
+  // issues
+
+  // opened
   app.on("issues.opened", async (context) => {
+    const username_ = context.payload.issue.user.login;
+    const username = context.payload.repository.owner.login;
+    const message = `Thanks for opening this issue, @${username_}! @${username} will look into it asap.\nTitle: ${context.payload.issue.title}\n id: ${context.payload.issue.number}`
+    // console.log(message)
     const issueComment = context.issue({
-      body: "Thanks for opening this issue! @d33pster will look into it asap.",
+      body: message,
     });
     return context.octokit.issues.createComment(issueComment);
   });
-
+  // closed
   app.on("issues.closed", async (context) => {
-    // const issue = context.payload.issue;
-    // const owner = issue.owner.login;
-    // const repo = issue.repo.name;
-    // const issueNumber = issue.number;
 
     // Add your comment here
-    const commentBody = context.issue({body:'This issue is now closed.'});
+    const commentBody = context.issue({body:'This issue is now closed. Thanks from @deepster!'});
 
     // Post a comment on the closed issue
+    await context.octokit.issues.createComment(commentBody);
+  });
+  // reopened
+  app.on("issues.reopened", async (context) => {
+    const commentBody = context.issue({body: 'This issue has been reopened.'});
+    await context.octokit.issues.createComment(commentBody);
+  });
+
+  // Pull requests
+
+  app.on("pull_request.closed", async (context) => {
+
+    // Add your comment here
+    const commentBody = context.issue({body: 'This pull request is now closed.'});
+
+    // Post a comment on the closed pull request
     await context.octokit.issues.createComment(commentBody);
   });
 
