@@ -54,15 +54,88 @@ export default (app) => {
     const commentBody = context.issue({body: message});
     await context.octokit.issues.createComment(commentBody);
   });
+  // edited
+  app.on("issues.edited", async (context) => {
+    const username_ = context.payload.issue.user.login;
+    const username = context.payload.repository.owner.login;
+    let message = "";
+    if (username == username_) {
+      message = `Issue ${context.payload.issue.number} has been edited.😌`;
+    } else {
+      message = `Thanks @${username_}!😌\nIssue ${context.payload.issue.number} has been edited!`;
+    }
+    const commentBody = context.issue({body: message});
+    await context.octokit.issues.createComment(commentBody);
+  });
 
   // Pull requests
 
+  // opened
+  app.on("pull_request.opened", async (context) => {
+    const username_ = context.payload.issue.user.login;
+    const username = context.payload.repository.owner.login;
+    let message = "";
+    if (username == username_) {
+      message =  `Pull Request opened!🧐;`
+    } else {
+      message =  `Thanks for pull request ${context.payload.pull_request.number} ${username_}!🧐\n@${username} will look into it asap!😌\n"${context.payload.pull_request.title}" has been created.😴`;
+    }
+    const commentBody = context.issue({body: message});
+    await context.octokit.issues.createComment(commentBody);
+  });
+  // // closed
+  // app.on("pull_request.closed", async (context) => {
+  //   let 
+
+  //   // Add your comment here
+  //   const commentBody = context.issue({body: message});
+
+  //   // Post a comment on the closed pull request
+  //   await context.octokit.issues.createComment(commentBody);
+  // });
+  // reopened
+  app.on("pull_request.reopened", async (context) => {
+    const username_ = context.payload.issue.user.login;
+    const username = context.payload.repository.owner.login;
+    let message = "";
+    if (username == username_) {
+      message =  `Pull Request re-opened!🧐;`
+    } else {
+      message =  `Thanks for re-opening pull request ${context.payload.pull_request.number} ${username_}!🧐\n@${username} will look into it asap!😌\n"${context.payload.pull_request.title}" has been re-created.😴`;
+    }
+    const commentBody = context.issue({body: message});
+    await context.octokit.issues.createComment(commentBody);
+  });
+  // merged or closed
   app.on("pull_request.closed", async (context) => {
-
-    // Add your comment here
-    const commentBody = context.issue({body: 'This pull request is now closed.'});
-
-    // Post a comment on the closed pull request
+    const username_ = context.payload.issue.user.login;
+    const username = context.payload.repository.owner.login;
+    let message = "";
+    if (username == username_) {
+      message =  `Pull Request ${context.payload.pull_request.number} is now merged!🤩;`
+    } else {
+      message =  `Pull Request ${context.payload.pull_request.number} is now merged!🤩\nThanks @${username_}!🥳`;
+    }
+    if (context.payload.pull_request.merged) {
+      const commentBody = context.issue({body: message});
+      await context.octokit.issues.createComment(commentBody);
+    } else {
+      message = `Pull request ${context.payload.pull_request.number} is now closed!`;
+      const commentBody = context.issue({body: message});
+      await context.octokit.issues.createComment(commentBody);
+    }
+  });
+  // edited
+  app.on("pull_request.edited", async (context) => {
+    const username_ = context.payload.issue.user.login;
+    const username = context.payload.repository.owner.login;
+    let message = "";
+    if (username == username_) {
+      message =  `Pull Request ${context.payload.pull_request.number} has been edited!😄;`
+    } else {
+      message =  `Pull Request ${context.payload.pull_request.number} has been edited!😄\nThanks @${username_}!🥳`;
+    }
+    const commentBody = context.issue({body: message});
     await context.octokit.issues.createComment(commentBody);
   });
 
