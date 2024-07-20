@@ -14,9 +14,9 @@ export default (app) => {
     const username = context.payload.repository.owner.login;
     let message = "";
     if (username == username_) {
-      message = `Thanks for opening this issue, @${username_}!🤩 \nTitle: ${context.payload.issue.title} #${context.payload.issue.number}`;
+      message = `Thanks for opening this issue, @${username_}!🤩 \nIssue: ${context.payload.issue.title} #${context.payload.issue.number}`;
     } else {
-      message = `Thanks for opening this issue, @${username_}!🤩 @${username} will look into it asap.😬\nTitle: ${context.payload.issue.title} #${context.payload.issue.number}`;
+      message = `Thanks for opening this issue, @${username_}!🤩 @${username} will look into it asap.😬\nIssue: ${context.payload.issue.title} #${context.payload.issue.number}`;
     }
     // console.log(message)
     const issueComment = context.issue({
@@ -30,9 +30,9 @@ export default (app) => {
     const username = context.payload.repository.owner.login;
     let message = "";
     if (username == username_) {
-      message = `Thanks for closing this issue, @${username_}!🤩 \nTitle: ${context.payload.issue.title} #${context.payload.issue.number} is closed now!🥳🤩`;
+      message = `Thanks for closing this issue, @${username_}!🤩 \nIssue: ${context.payload.issue.title} #${context.payload.issue.number} is closed now!🥳🤩`;
     } else {
-      message = `Thanks for closing this issue, @${username_}!🤩 \nThanks from @${username}\nTitle: ${context.payload.issue.title} #${context.payload.issue.number} is closed now!🥳🤩`;
+      message = `Thanks for closing this issue, @${username_}!🤩 \nThanks from @${username}\nIssue: ${context.payload.issue.title} #${context.payload.issue.number} is closed now!🥳🤩`;
     }
 
     // Add your comment here
@@ -47,9 +47,9 @@ export default (app) => {
     const username = context.payload.repository.owner.login;
     let message = "";
     if (username == username_) {
-      message = `Issue reopened @${username_}!😱 \nTitle: ${context.payload.issue.title} #${context.payload.issue.number}\n😮‍💨😵‍💫`;
+      message = `@${username_} re-opened the issue!🧐 \nIssue: ${context.payload.issue.title} #${context.payload.issue.number}\n😮‍💨😵‍💫`;
     } else {
-      message = `Thanks for re-opening this issue, @${username_}!😅 @${username} will look into it asap.😤\nTitle: ${context.payload.issue.title} #${context.payload.issue.number} has been re-opened!🫠`;
+      message = `Thanks for re-opening this issue, @${username_}!😅 @${username} will look into it asap.😤\nIssue: ${context.payload.issue.title} #${context.payload.issue.number} has been re-opened!🫠`;
     }
     const commentBody = context.issue({body: message});
     await context.octokit.issues.createComment(commentBody);
